@@ -445,7 +445,7 @@ impl RelativeOps for FloatOperationIr {
             }),
             FloatOperationIr::Random(desc) => FloatOperationIr::Random(RandomOpIr {
                 out: desc.out.to_relative(converter),
-                distribution: desc.distribution,
+                distribution: desc.distribution.clone(),
             }),
             FloatOperationIr::Recip(desc) => FloatOperationIr::Recip(UnaryOpIr {
                 input: desc.input.to_relative(converter),
@@ -866,7 +866,7 @@ impl RelativeOps for NumericOperationIr {
             }),
             NumericOperationIr::IntRandom(desc) => NumericOperationIr::IntRandom(RandomOpIr {
                 out: desc.out.to_relative(converter),
-                distribution: desc.distribution,
+                distribution: desc.distribution.clone(),
             }),
             NumericOperationIr::Powf(desc) => NumericOperationIr::Powf(BinaryOpIr {
                 lhs: desc.lhs.to_relative(converter),

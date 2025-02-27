@@ -12,7 +12,10 @@ use crate::{
     element::{CandleElement, FloatCandleElement, IntCandleElement},
 };
 
-use super::base::{expand, permute, sign, unfold};
+use super::{
+    base::{expand, permute, sign, unfold},
+    candle_utils::multinomial,
+};
 
 impl<F: FloatCandleElement, I: IntCandleElement> FloatTensorOps<Self> for Candle<F, I> {
     fn float_from_data(data: TensorData, device: &Device<Self>) -> CandleTensor {
@@ -56,6 +59,13 @@ impl<F: FloatCandleElement, I: IntCandleElement> FloatTensorOps<Self> for Candle
                 candle_core::Tensor::randn(mean.elem::<F>(), std.elem::<F>(), shape, device)
                     .unwrap(),
             ),
+            Distribution::Multinomial(probs) => {
+                let num_samples = shape.iter().product::<usize>();
+                let out = multinomial::<F>(&probs, num_samples, device)
+                    .reshape(shape)
+                    .unwrap();
+                CandleTensor::new(out)
+            }
         }
     }
 
