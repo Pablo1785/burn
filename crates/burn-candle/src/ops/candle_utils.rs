@@ -135,4 +135,3 @@ pub(crate) fn multinomial<E: CandleElement>(
     let final_result = starts;
     return final_result.to_dtype(E::DTYPE).unwrap();
 }
->>>>>>> Conflict 1 of 1 ends
